@@ -1,4 +1,7 @@
 #!/bin/sh
 
-php artisan migrate --force
-php artisan serve --host=0.0.0.0 --port=8080
+echo "== Ejecutando migraciones =="
+php artisan migrate --force || true
+
+echo "== Iniciando servidor Apache =="
+apache2-foreground
