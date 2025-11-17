@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
 # Habilitar mod_rewrite
 RUN a2enmod rewrite
 
-# Configurar DocumentRoot
+# Configurar DocumentRoot a /public
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf
 
@@ -16,7 +16,7 @@ RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-avail
 WORKDIR /var/www/html
 COPY . .
 
-# Copiar composer
+# Copiar Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Instalar dependencias Laravel
@@ -31,7 +31,7 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 # Exponer puerto
 EXPOSE 8080
 
-# Entrypoint
+# Copiar entrypoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
