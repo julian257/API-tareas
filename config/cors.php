@@ -5,7 +5,9 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'], // <-- permitir todos temporalmente
+    'allowed_origins' => [
+    env('APP_FRONTEND_URL'),
+    ], // <-- permitir todos temporalmente
 
     'allowed_origins_patterns' => [],
 
@@ -15,6 +17,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => false,
+    'supports_credentials' => true,
 
 ];

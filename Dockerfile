@@ -5,22 +5,27 @@ RUN apt-get update && apt-get install -y \
     zip unzip libzip-dev libpng-dev git \
     && docker-php-ext-install pdo pdo_mysql zip
 
-# Activar mod_rewrite
+# Habilitar mod_rewrite para Laravel
 RUN a2enmod rewrite
 
-# Copiar proyecto
+# Copiar archivos
 WORKDIR /var/www/html
 COPY . .
 
 # Instalar Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Instalar dependencias
 RUN composer install --no-dev --optimize-autoloader
 
-# Permisos
+# Dar permisos a Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Puerto del servidor Apache
-EXPOSE 80
+# Copiar entrypoint
+COPY entrypoint.sh /entrypoint.sh
 
-# Comando de inicio (Apache)
-CMD ["apache2-foreground"]
+# Exponer puerto 8080
+EXPOSE 8080
+
+# Ejecutar migraciones y Apache
+ENTRYPOINT ["/entrypoint.sh"]
