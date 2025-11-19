@@ -8,8 +8,10 @@ class Contacto extends Model
 {
     protected $fillable = [
         'nombre',
-        'email',
+        'correo',
         'telefono',
-        'mensaje'
+        'empresa',
+        'foto_url',
+        'enlace_externo',
     ];
 }

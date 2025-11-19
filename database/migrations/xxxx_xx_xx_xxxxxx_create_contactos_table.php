@@ -11,9 +11,11 @@ return new class extends Migration
         Schema::create('contactos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('email')->unique();
+            $table->string('correo');
             $table->string('telefono')->nullable();
-            $table->text('mensaje')->nullable();
+            $table->string('empresa')->nullable();
+            $table->string('foto_url')->nullable();
+            $table->string('enlace_externo')->nullable();
             $table->timestamps();
         });
     }

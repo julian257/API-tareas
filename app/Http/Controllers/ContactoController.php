@@ -9,60 +9,30 @@ class ContactoController extends Controller
 {
     public function index()
     {
-        $contactos = Contacto::paginate(5);
-        return view('contactos.index', compact('contactos'));
-    }
-
-    public function show($id)
-    {
-        $contacto = Contacto::findOrFail($id);
-        return view('contactos.show', compact('contacto'));
-    }
-
-    public function create()
-    {
-        return view('contactos.create');
+        return Contacto::all();
     }
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre' => 'required',
-            'email' => 'required|email|unique:contactos,email',
-        ]);
-
-        Contacto::create($request->all());
-
-        return redirect()->route('contactos.index')
-                         ->with('success', 'Contacto creado correctamente');
+        return Contacto::create($request->all());
     }
 
-    public function edit($id)
+    public function show($id)
     {
-        $contacto = Contacto::findOrFail($id);
-        return view('contactos.edit', compact('contacto'));
+        return Contacto::findOrFail($id);
     }
 
     public function update(Request $request, $id)
     {
-        $contacto = Contacto::findOrFail($id);
-
-        $request->validate([
-            'nombre' => 'required',
-            'email' => 'required|email|unique:contactos,email,' . $id,
-        ]);
-
-        $contacto->update($request->all());
-
-        return redirect()->route('contactos.index')
-                        ->with('success', 'Contacto actualizado correctamente');
+        $c = Contacto::findOrFail($id);
+        $c->update($request->all());
+        return $c;
     }
 
     public function destroy($id)
     {
-        Contacto::destroy($id);
-
-        return redirect()->route('contactos.index')
-                        ->with('success', 'Contacto eliminado correctamente');
+        $c = Contacto::findOrFail($id);
+        $c->delete();
+        return response()->json(['message' => 'Eliminado']);
     }
 }
