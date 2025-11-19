@@ -9,30 +9,60 @@ class ContactoController extends Controller
 {
     public function index()
     {
-        return Contacto::all();
-    }
-
-    public function store(Request $request)
-    {
-        return Contacto::create($request->all());
+        $contactos = Contacto::paginate(5);
+        return view('contactos.index', compact('contactos'));
     }
 
     public function show($id)
     {
-        return Contacto::findOrFail($id);
+        $contacto = Contacto::findOrFail($id);
+        return view('contactos.show', compact('contacto'));
+    }
+
+    public function create()
+    {
+        return view('contactos.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'nombre' => 'required',
+            'email' => 'required|email|unique:contactos,email',
+        ]);
+
+        Contacto::create($request->all());
+
+        return redirect()->route('contactos.index')
+                         ->with('success', 'Contacto creado correctamente');
+    }
+
+    public function edit($id)
+    {
+        $contacto = Contacto::findOrFail($id);
+        return view('contactos.edit', compact('contacto'));
     }
 
     public function update(Request $request, $id)
     {
-        $c = Contacto::findOrFail($id);
-        $c->update($request->all());
-        return $c;
+        $contacto = Contacto::findOrFail($id);
+
+        $request->validate([
+            'nombre' => 'required',
+            'email' => 'required|email|unique:contactos,email,' . $id,
+        ]);
+
+        $contacto->update($request->all());
+
+        return redirect()->route('contactos.index')
+                        ->with('success', 'Contacto actualizado correctamente');
     }
 
     public function destroy($id)
     {
-        $c = Contacto::findOrFail($id);
-        $c->delete();
-        return response()->json(['message' => 'Eliminado']);
+        Contacto::destroy($id);
+
+        return redirect()->route('contactos.index')
+                        ->with('success', 'Contacto eliminado correctamente');
     }
 }
