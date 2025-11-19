@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TareaController;
+use App\Http\Controllers\ContactoController;
 
-Route::get('/tareas', [TareaController::class, 'index']);
-Route::post('/tareas', [TareaController::class, 'store']);
-Route::get('/tareas/{id}', [TareaController::class, 'show']);
-Route::put('/tareas/{id}', [TareaController::class, 'update']);
-Route::delete('/tareas/{id}', [TareaController::class, 'destroy']);
+Route::get("/contactos", [ContactoController::class, "index"]);
+Route::post("/contactos", [ContactoController::class, "store"]);
+Route::get("/contactos/{id}", [ContactoController::class, "show"]);
+Route::put("/contactos/{id}", [ContactoController::class, "update"]);
+Route::delete("/contactos/{id}", [ContactoController::class, "destroy"]);
