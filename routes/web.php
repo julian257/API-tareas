@@ -3,5 +3,5 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return "API funcionando";
+    return 'API de Tareas funcionando ✔️';
 });

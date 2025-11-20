@@ -9,6 +9,7 @@ class Tarea extends Model
     protected $fillable = [
         'titulo',
         'descripcion',
-        'estado'
+        'prioridad',
+        'fecha_limite',
     ];
 }

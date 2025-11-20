@@ -9,30 +9,30 @@ class TareaController extends Controller
 {
     public function index()
     {
-        return Tarea::all();
+        return response()->json(Tarea::all());
     }
 
     public function store(Request $request)
     {
-        return Tarea::create($request->all());
+        $tarea = Tarea::create($request->all());
+        return response()->json($tarea, 201);
     }
 
     public function show($id)
     {
-        return Tarea::findOrFail($id);
+        return response()->json(Tarea::findOrFail($id));
     }
 
     public function update(Request $request, $id)
     {
         $tarea = Tarea::findOrFail($id);
         $tarea->update($request->all());
-        return $tarea;
+        return response()->json($tarea);
     }
 
     public function destroy($id)
     {
-        $tarea = Tarea::findOrFail($id);
-        $tarea->delete();
-        return response()->json(['message' => 'Eliminado']);
+        Tarea::destroy($id);
+        return response()->json(null, 204);
     }
 }
